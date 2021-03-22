@@ -1,0 +1,6 @@
+#!/bin/bash
+
+INPUT_FILE=$1
+VIRTMIC_PATH=/tmp/virtmic
+
+ffmpeg -re -i "$INPUT_FILE" -f s16le -ar 16000 -ac 1 - > "$VIRTMIC_PATH"

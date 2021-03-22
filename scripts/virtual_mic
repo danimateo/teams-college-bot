@@ -1,0 +1,20 @@
+#!/bin/bash
+
+VIRTMIC_PATH=/tmp/virtmic
+
+function cleanup() {
+    pactl unload-module module-pipe-source
+    rm -f "$HOME"/.config/pulse/client.conf
+}
+
+echo "Creating virtual microphone."
+pactl load-module module-pipe-source source_name=virtmic file=$VIRTMIC_PATH format=s16le rate=16000 channels=1
+
+trap cleanup EXIT
+
+echo "Set the virtual microphone as the default device."
+pactl set-default-source virtmic
+
+echo "default-source = virtmic" > "$HOME"/.config/pulse/client.conf
+
+read
